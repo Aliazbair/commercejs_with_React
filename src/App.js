@@ -30,6 +30,25 @@ const App = () => {
     setCart(item.cart)
   }
 
+  // hnadle update cart
+  const handleUpdateCartQty = async (productId, quantity) => {
+    const { cart } = await commerce.cart.update(productId, { quantity })
+    setCart(cart)
+  }
+
+  // handleRemove form cart
+  const handleRemoveCart = async (productId) => {
+    const { cart } = await commerce.cart.remove(productId)
+    setCart(cart)
+  }
+
+  // handle empty cart
+  const handleEmptyCart = async () => {
+    const { cart } = await commerce.cart.empty()
+
+    setCart(cart)
+  }
+
   useEffect(() => {
     fetchProducts()
     fetchCart()
@@ -45,7 +64,12 @@ const App = () => {
             <Products products={products} onAddToCart={handleToCart} />
           </Route>
           <Route path='/card'>
-            <Cart cart={cart} />
+            <Cart
+              cart={cart}
+              handleUpdateCartQty={handleUpdateCartQty}
+              handleRemoveCart={handleRemoveCart}
+              handleEmptyCart={handleEmptyCart}
+            />
           </Route>
         </Switch>
       </div>
